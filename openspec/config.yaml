@@ -6,7 +6,9 @@ context: |
   Role: The countergank reference FRONTEND TEMPLATE (mold/base) that exposes the
   standard technologies, tools, architecture, and conventions future countergank
   frontend apps reuse as their starting point.
-  Current state: empty repo (README.md, .gitignore, LICENSE, .atl/skill-registry.md only).
+  Current state: repo with countergank skills integrated (PR #1, commit dc0e409):
+  .agents/skills/ (react-frontend, github-conventions, git-environment-flow),
+  .claude/skills/ symlinks, skills-lock.json, openspec/ plan artifacts.
   Stack: not yet decided (this SDD plan will define it).
   Architecture: not yet decided (to be designed: folder structure, component patterns,
   atomic design, container/presentational, error handling).
