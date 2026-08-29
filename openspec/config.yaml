@@ -1,0 +1,62 @@
+# OpenSpec SDD config — frontend-standard-project
+schema: spec-driven
+
+context: |
+  Project: countergank/frontend-standard-project
+  Role: The countergank reference FRONTEND TEMPLATE (mold/base) that exposes the
+  standard technologies, tools, architecture, and conventions future countergank
+  frontend apps reuse as their starting point.
+  Current state: empty repo (README.md, .gitignore, LICENSE, .atl/skill-registry.md only).
+  Stack: not yet decided (this SDD plan will define it).
+  Architecture: not yet decided (to be designed: folder structure, component patterns,
+  atomic design, container/presentational, error handling).
+  Testing: not yet configured (no test runner present; will be defined by the plan).
+  Conventions: conversation in Spanish; technical artifacts (specs, tasks, code, docs)
+  in English. Work planned via SDD, executed incrementally via Linear tickets
+  (project named exactly "frontend-standard-project", all tickets assigned to
+  Leandro Cepeda, one ticket per fundamental part).
+
+layout:
+  orchestrator: openspec/changes/{change-name}/state.yaml
+  init: openspec/config.yaml
+  explore: openspec/changes/{change-name}/exploration.md
+  propose: openspec/changes/{change-name}/proposal.md
+  spec: openspec/changes/{change-name}/specs/{domain}/spec.md
+  design: openspec/changes/{change-name}/design.md
+  tasks: openspec/changes/{change-name}/tasks.md
+  apply: openspec/changes/{change-name}/tasks.md
+  verify: openspec/changes/{change-name}/verify-report.md
+  archive: openspec/changes/archive/{date}-{change-name}/
+
+rules:
+  proposal:
+    - State intent, scope, non-goals, and the enabled/disabled skill integrations.
+    - Reference the countergank/skills repository and the react-frontend skill.
+  specs:
+    - Use Given/When/Then for scenarios.
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY).
+  design:
+    - Document architecture decisions with rationale (ADR style).
+    - Include folder structure, component patterns, atomic design, container/presentational.
+  tasks:
+    - Group by phase, use hierarchical numbering.
+    - Keep tasks completable in one Linear-ticket-sized increment.
+    - One task group per fundamental part (skills, stack setup, architecture, testing,
+      CI/CD, tooling, documentation).
+  apply:
+    guidelines:
+      - Follow the countergank skills once integrated (react-frontend skill).
+    tdd: false
+    test_command: ""
+  verify:
+    test_command: ""
+    build_command: ""
+    coverage_threshold: 0
+  archive:
+    - Warn before merging destructive deltas.
+
+testing:
+  strict_tdd: false
+  detected: "2026-08-29"
+  runner: "none (not yet configured)"
+  note: "Repo has no source or test runner yet. Testing stack will be defined by the SDD plan and confirmed during setup."

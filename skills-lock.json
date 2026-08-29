@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "git-environment-flow": {
+      "source": "countergank/skills",
+      "sourceType": "github",
+      "skillPath": "skills/git-environment-flow/SKILL.md",
+      "computedHash": "72641d6c33d57497d4946c92034bafd152824613a577eeec6d608c0c9e62fbb6"
+    },
+    "github-conventions": {
+      "source": "countergank/skills",
+      "sourceType": "github",
+      "skillPath": "skills/github-conventions/SKILL.md",
+      "computedHash": "17b191f8adfa28ed3d16e77696b7d1b7be7cc7160b9eec6cd1ee893e9b53071c"
+    },
+    "react-frontend": {
+      "source": "countergank/skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-frontend/SKILL.md",
+      "computedHash": "1abf520ac1176338abf6467bb363b21f21ad86f3224bff56d61a73e2afa365c6"
+    }
+  }
+}
