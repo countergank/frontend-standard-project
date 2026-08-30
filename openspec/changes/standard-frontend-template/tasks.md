@@ -64,8 +64,8 @@ Chain strategy: single-pr
 - [x] 6.2 Add preview deploy step for PRs.
 
 ## Phase 7: Tooling & hygiene (ticket #7)
-- [ ] 7.1 Add `commitlint.config.ts` (conventional commits) + husky hooks.
-- [ ] 7.2 Add `Makefile` (dev/test/ci) + `Dockerfile` + `.env.example`/`.env.test`.
+- [x] 7.1 Add `commitlint.config.ts` (conventional commits) + husky hooks.
+- [x] 7.2 Add `Makefile` (dev/test/ci) + `Dockerfile` + `.env.example`/`.env.test`.
 
 ## Phase 8: Documentation (ticket #8)
 - [ ] 8.1 Add `docs/` (ADR, folder structure, component patterns, error handling, a11y policy, testing strategy).
