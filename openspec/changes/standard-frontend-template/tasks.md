@@ -35,10 +35,10 @@ Chain strategy: single-pr
 - [x] 1.3 Update `.atl/skill-registry.md` to register `react-frontend`; record Tailwind/shadcn deviation in agent config.
 
 ## Phase 2: GitHub flow setup (ticket #2 — COU-249)
-- [ ] 2.1 Add `.github/PULL_REQUEST_TEMPLATE.md` + `.github/COMMIT_TEMPLATE.txt` from `github-conventions` skill assets (feature PRs target `develop`).
-- [ ] 2.2 Add `.github/` branch flow documentation pinning environment branches: `develop` default/integration, `staging` pre-prod mirror, `main` production protected; merge direction `feature → develop → release/x.y.z → staging → main → develop (backmerge)`; hotfix flow `hotfix/* → main → backmerge develop only`.
-- [ ] 2.3 Add release mechanics: version bump from commit history (SemVer), changelog generation, annotated tags `vX.Y.Z` (main) / `vX.Y.Z-rcN` (staging).
-- [ ] 2.4 Document branch protection requirements per `git-environment-flow` (develop/staging/main: 1 reviewer, CI required, force push blocked, stale reviews dismissed, last push approval required) as a manual/admin step pending token with admin rights.
+- [x] 2.1 Add `.github/PULL_REQUEST_TEMPLATE.md` + `.github/COMMIT_TEMPLATE.txt` from `github-conventions` skill assets (feature PRs target `develop`).
+- [x] 2.2 Add `.github/` branch flow documentation pinning environment branches: `develop` default/integration, `staging` pre-prod mirror, `main` production protected; merge direction `feature → develop → release/x.y.z → staging → main → develop (backmerge)`; hotfix flow `hotfix/* → main → backmerge develop only`.
+- [x] 2.3 Add release mechanics: version bump from commit history (SemVer), changelog generation, annotated tags `vX.Y.Z` (main) / `vX.Y.Z-rcN` (staging).
+- [x] 2.4 Document branch protection reflecting the verified real state: protection already configured on develop/staging/main (1 reviewer, dismiss stale reviews, last-push approval, force-push blocked, enforce admins, admin bypass user leandrojaviercepeda); pending item = associate the CI check with all three protections once `.github/workflows/ci.yml` lands in Phase 6 (required_status_checks currently empty because CI does not exist yet).
 
 ## Phase 3: Stack setup (ticket #3 — COU-122)
 - [ ] 3.1 Scaffold `src/` skeleton: package.json (pnpm), .nvmrc, .editorconfig, .vscode.
