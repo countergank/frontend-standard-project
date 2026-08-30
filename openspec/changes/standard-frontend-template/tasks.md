@@ -47,10 +47,10 @@ Chain strategy: single-pr
 - [x] 3.4 Add `biome.json` + ESLint a11y/recommended config (skill eslint asset).
 
 ## Phase 4: Architecture (ticket #4)
-- [ ] 4.1 Create `src/features/<sample>` structure (components+hooks+api) demonstrating feature layout.
-- [ ] 4.2 Build app shell: landmarks, skip link, `RouteAnnouncer` (skill asset), focus mgmt.
-- [ ] 4.3 Add React Router lazy routes + Suspense; TanStack Query client + sample query.
-- [ ] 4.4 Add typed `Error` subclasses + route `ErrorBoundary` + error UI (`react-011`).
+- [x] 4.1 Create `src/features/<sample>` structure (components+hooks+api) demonstrating feature layout.
+- [x] 4.2 Build app shell: landmarks, skip link, `RouteAnnouncer` (skill asset), focus mgmt.
+- [x] 4.3 Add React Router lazy routes + Suspense; TanStack Query client + sample query.
+- [x] 4.4 Add typed `Error` subclasses + route `ErrorBoundary` + error UI (`react-011`).
 
 ## Phase 5: Testing (ticket #5)
 - [ ] 5.1 Configure Vitest (jsdom, coverage thresholds) `vitest.config.ts` (skill asset).
