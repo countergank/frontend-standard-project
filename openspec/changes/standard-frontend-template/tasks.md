@@ -41,10 +41,10 @@ Chain strategy: single-pr
 - [x] 2.4 Document branch protection reflecting the verified real state: protection already configured on develop/staging/main (1 reviewer, dismiss stale reviews, last-push approval, force-push blocked, enforce admins, admin bypass user leandrojaviercepeda); pending item = associate the CI check with all three protections once `.github/workflows/ci.yml` lands in Phase 6 (required_status_checks currently empty because CI does not exist yet).
 
 ## Phase 3: Stack setup (ticket #3 — COU-122)
-- [ ] 3.1 Scaffold `src/` skeleton: package.json (pnpm), .nvmrc, .editorconfig, .vscode.
-- [ ] 3.2 Add `tsconfig.json` strict + `@/` alias; `vite.config.ts` with alias/env (`vite-001/002`).
-- [ ] 3.3 Set Tailwind + shadcn/ui (Radix, CSS vars, darkMode class); `src/components/ui/`.
-- [ ] 3.4 Add `biome.json` + ESLint a11y/recommended config (skill eslint asset).
+- [x] 3.1 Scaffold `src/` skeleton: package.json (pnpm), .nvmrc, .editorconfig, .vscode.
+- [x] 3.2 Add `tsconfig.json` strict + `@/` alias; `vite.config.ts` with alias/env (`vite-001/002`).
+- [x] 3.3 Set Tailwind + shadcn/ui (Radix, CSS vars, darkMode class); `src/components/ui/`.
+- [x] 3.4 Add `biome.json` + ESLint a11y/recommended config (skill eslint asset).
 
 ## Phase 4: Architecture (ticket #4)
 - [ ] 4.1 Create `src/features/<sample>` structure (components+hooks+api) demonstrating feature layout.
