@@ -8,6 +8,7 @@
     "node": ">=22"
   },
   "scripts": {
+    "prepare": "husky",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
@@ -33,6 +34,8 @@
   "devDependencies": {
     "@axe-core/playwright": "^4",
     "@biomejs/biome": "^1",
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
     "@eslint/js": "^9",
     "@playwright/test": "^1",
     "@testing-library/dom": "^10",
@@ -50,6 +53,7 @@
     "eslint-plugin-jsx-a11y": "^6",
     "eslint-plugin-react": "^7",
     "eslint-plugin-react-hooks": "^5",
+    "husky": "^9.1.7",
     "jsdom": "^25",
     "postcss": "^8",
     "tailwindcss": "^3.4",

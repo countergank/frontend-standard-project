@@ -23,6 +23,7 @@ export default tseslint.config(
       "docs/**",
       "e2e/**",
       "*.config.js",
+      "commitlint.config.ts",
       "tailwind.config.js",
       "postcss.config.js",
     ],
