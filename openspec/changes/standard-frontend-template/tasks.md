@@ -60,8 +60,8 @@ Chain strategy: single-pr
 - [x] 5.5 Enable strict TDD in `openspec/config.yaml` once runner confirmed.
 
 ## Phase 6: CI/CD (ticket #6)
-- [ ] 6.1 Add `.github/workflows/ci.yml`: lint, typecheck, test+coverage, build, e2e.
-- [ ] 6.2 Add preview deploy step for PRs.
+- [x] 6.1 Add `.github/workflows/ci.yml`: lint, typecheck, test+coverage, build, e2e.
+- [x] 6.2 Add preview deploy step for PRs.
 
 ## Phase 7: Tooling & hygiene (ticket #7)
 - [ ] 7.1 Add `commitlint.config.ts` (conventional commits) + husky hooks.
