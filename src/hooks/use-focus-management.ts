@@ -10,8 +10,18 @@ import { useEffect, useRef } from "react";
  */
 export function useFocusManagement(pathname: string) {
   const containerRef = useRef<HTMLElement | null>(null);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    // Skip the initial full-page load: on loading, focus must start at the
+    // document body so the skip link remains the first Tab stop (a11y
+    // skip-links rule). Only client-side navigations park focus to the content
+    // landmark to give screen reader and keyboard users a stable starting point.
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     containerRef.current?.focus({ preventScroll: true });
   }, [pathname]);
 
