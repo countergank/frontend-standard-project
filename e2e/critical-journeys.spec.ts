@@ -20,6 +20,24 @@ async function expectFocused(locator: Locator) {
     .toBe(true);
 }
 
+// Headless Chromium does not always grant the page window focus after
+// page.goto(), which makes Tab traversal non-deterministic (the first Tab can
+// land anywhere). Making body programmatically focusable and focusing it before
+// walking the tab order makes `document.activeElement` traversal deterministic
+// and headless-safe. The tabindex stays a live-DOM test-only change: it is
+// never persisted to source and does not alter the shipped tab order. The
+// skip-link wait also guarantees React has committed before the first Tab.
+async function focusDocumentHeadless(page: Page) {
+  await page.goto("/");
+  await page.locator(".skip-link").waitFor();
+  await page.bringToFront();
+  await page.evaluate(() => {
+    window.focus();
+    document.body.setAttribute("tabindex", "-1");
+    document.body.focus();
+  });
+}
+
 test.describe("shell and keyboard journeys", () => {
   test("declares the page language and exposes the expected landmarks", async ({ page }) => {
     await page.goto("/");
@@ -32,12 +50,7 @@ test.describe("shell and keyboard journeys", () => {
   });
 
   test("skip link is the first Tab stop and jumps focus to main content", async ({ page }) => {
-    await page.goto("/");
-    // Headless pages do not own window focus by default; harden with an
-    // explicit focus so Tab traversal is deterministic and moves
-    // document.activeElement (the assertions below only work when it does).
-    await page.bringToFront();
-    await page.evaluate(() => window.focus());
+    await focusDocumentHeadless(page);
 
     await page.keyboard.press("Tab");
     await expectFocused(skipLink()(page));
@@ -48,9 +61,7 @@ test.describe("shell and keyboard journeys", () => {
   });
 
   test("keyboard users can tab through navigation to reach the About route", async ({ page }) => {
-    await page.goto("/");
-    await page.bringToFront();
-    await page.evaluate(() => window.focus());
+    await focusDocumentHeadless(page);
 
     await page.keyboard.press("Tab");
     await expectFocused(skipLink()(page));
@@ -97,6 +108,8 @@ test.describe("motion and failure journeys", () => {
     // Reduced motion: universal 0.01ms override wins (WCAG 2.2 reduced-motion).
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.reload();
+    // React must commit again after the reload before querySelector resolves.
+    await page.locator(".skip-link").waitFor();
     expect(await transitionMs()).toBeLessThanOrEqual(1);
   });
 

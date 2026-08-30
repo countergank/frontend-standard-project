@@ -5,7 +5,11 @@ import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./e2e",
-  fullyParallel: true,
+  // Keyboard/focus journeys assert document.activeElement after real Tab
+  // presses; a single worker keeps headless window focus deterministic
+  // (7 tests, ~15s total — acceptable for this suite).
+  fullyParallel: false,
+  workers: 1,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
   reporter: [["list"], ["html", { open: "never" }]],
