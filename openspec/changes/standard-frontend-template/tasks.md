@@ -68,10 +68,10 @@ Chain strategy: single-pr
 - [x] 7.2 Add `Makefile` (dev/test/ci) + `Dockerfile` + `.env.example`/`.env.test`.
 
 ## Phase 8: Documentation (ticket #8)
-- [ ] 8.1 Add `docs/` (ADR, folder structure, component patterns, error handling, a11y policy, testing strategy).
-- [ ] 8.2 Add `AGENTS.md` pointing to countergank skills + repo standards.
-- [ ] 8.3 Write README (purpose, quickstart, consumption guide).
-- [ ] 8.4 Verify doc links and agent-readable standards resolve.
+- [x] 8.1 Add `docs/` (ADR, folder structure, component patterns, error handling, a11y policy, testing strategy).
+- [x] 8.2 Add `AGENTS.md` pointing to countergank skills + repo standards.
+- [x] 8.3 Write README (purpose, quickstart, consumption guide).
+- [x] 8.4 Verify doc links and agent-readable standards resolve.
 
 ## Implementation order
 Skills (1) → GitHub flow (2) → stack (3) → architecture (4) → testing (5) → CI/CD (6) → tooling (7) → docs (8),
