@@ -53,11 +53,11 @@ Chain strategy: single-pr
 - [x] 4.4 Add typed `Error` subclasses + route `ErrorBoundary` + error UI (`react-011`).
 
 ## Phase 5: Testing (ticket #5)
-- [ ] 5.1 Configure Vitest (jsdom, coverage thresholds) `vitest.config.ts` (skill asset).
-- [ ] 5.2 RED: write failing unit/component tests per stack+architecture scenarios.
-- [ ] 5.3 Add Testing Library + `userEvent` component tests; axe a11y assertions.
-- [ ] 5.4 Add Playwright `e2e/` critical journeys (keyboard + reduced-motion).
-- [ ] 5.5 Enable strict TDD in `openspec/config.yaml` once runner confirmed.
+- [x] 5.1 Configure Vitest (jsdom, coverage thresholds) `vitest.config.ts` (skill asset).
+- [x] 5.2 RED: write failing unit/component tests per stack+architecture scenarios.
+- [x] 5.3 Add Testing Library + `userEvent` component tests; axe a11y assertions.
+- [x] 5.4 Add Playwright `e2e/` critical journeys (keyboard + reduced-motion).
+- [x] 5.5 Enable strict TDD in `openspec/config.yaml` once runner confirmed.
 
 ## Phase 6: CI/CD (ticket #6)
 - [ ] 6.1 Add `.github/workflows/ci.yml`: lint, typecheck, test+coverage, build, e2e.
