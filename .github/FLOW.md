@@ -45,5 +45,13 @@ main ─branch─▶ hotfix/* ─merge+tag─▶ main (vX.Y.Z patch) ─backmerg
 
 ## Branch protection
 
-See `.github/BRANCH-PROTECTION.md` for the current, verified protection configuration and
-the pending CI status-check item.
+Merging into `develop`, `staging`, or `main` requires both CI and review (ADR-9):
+
+- **Required status checks** — `quality-gates`, `e2e`, and `commitlint` must all pass before
+  a PR merges. `preview` is not required.
+- **Review** — at least 1 approving review with stale dismissal and last-push approval on
+  all three branches. CI-checks cannot be overridden by review bypass; `enforce_admins` is
+  on for all three.
+
+See `.github/BRANCH-PROTECTION.md` for the current, verified protection configuration,
+including the documented admin Settings backdoor.
