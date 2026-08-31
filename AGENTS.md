@@ -21,11 +21,14 @@ the same rules below.
 2. **Branch flow** — `feature/*` → `develop` → `release/x.y.z` → `staging` → `main`; hotfixes
    `hotfix/*` → `main` → backmerge `develop`. Feature PRs always target `develop`.
    See `.github/FLOW.md`.
-3. **PRs** — follow `.github/PULL_REQUEST_TEMPLATE.md`; one reviewer, stale-review dismissal,
-   force-push blocked, admin override by leandrojaviercepeda. See `.github/BRANCH-PROTECTION.md`.
+3. **PRs** — merging to `develop` / `staging` / `main` requires the CI gate
+   (`quality-gates` + `e2e` + `commitlint`) and at least 1 approving review on all three
+   branches; stale reviews are dismissed, force-push is blocked, and the admin Settings
+   backdoor is documented. See `.github/BRANCH-PROTECTION.md` and ADR-9 (`docs/adr.md`).
 4. **Planning** — work is planned in Linear tickets and executed via SDD phases in `openspec/`;
    consult the `linear-tickets` skill for ticket conventions.
-5. **No direct pushes** to `develop` / `staging` / `main`.
+5. **No direct pushes** to `develop` / `staging` / `main` — every change lands via a PR
+   that satisfies the CI gate (`quality-gates` + `e2e` + `commitlint`) and review.
 
 ## Skills mapping (authoritative at `.atl/skill-registry.md`)
 

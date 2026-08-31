@@ -32,6 +32,7 @@ configs at the repo root:
 | ADR-6 | Accessibility-first app shell |
 | ADR-7 | Vitest + Testing Library + axe + Playwright testing stack |
 | ADR-8 | Tooling gate + single final PR delivery |
+| ADR-9 | CI-gated merge acceptance + branch protection |
 
 ## ADR-1: Feature-based (screaming) source layout
 
@@ -134,6 +135,36 @@ no commits go to `develop`/`staging`/`main` directly.
 **Consequences**: every commit is a reviewable work unit; `make ci` gates the pipeline locally
 and the GitHub Actions workflow in `.github/workflows/ci.yml` enforces the same steps in CI;
 consumers get one coherent template snapshot.
+
+## ADR-9: CI-gated merge acceptance + branch protection
+
+**Context**: Historically, the CI pipeline in `.github/workflows/ci.yml` produced checks but
+branch protection had an empty `required_status_checks.contexts` list ("pending CI" item), so a
+PR could merge without CI or commitlint ever passing. Commits with `Co-Authored-By` or
+AI-attribution trailers were not rejected by commitlint's conventional config.
+
+**Decision**: Establish CI-gated merge acceptance on `develop`, `staging`, and `main`, ADR-9
+(MA-1..MA-5):
+
+- **Required status checks** `required_status_checks.contexts = ["quality-gates", "e2e",
+  "commitlint"]` with `strict: false` on all three branches. Job keys equal their display
+  names so the required-check context strings are unambiguous. `preview` is **not** required
+  (artifact-only, non-deterministic).
+- **Review rules** on all three: `required_approving_review_count = 1`, `dismiss_stale_reviews
+  = true`, `require_last_push_approval = true`. `develop` keeps the `leandrojaviercepeda`
+  review-bypass for solo self-merge; `staging`/`main` have no bypass.
+- **Enforcement** `enforce_admins = true` on all three so rules apply to admins; required
+  checks cannot be overridden by review bypass. The residual manual GitHub Settings UI
+  override is an accepted, documented backdoor (`.github/BRANCH-PROTECTION.md`, MA-4).
+- **Commitlint gate** a PR-only `commitlint` job validates `base.sha → head.sha` with
+  `--first-parent`; a custom `no-co-authored-by` commitlint rule (severity 2) rejects
+  `Co-Authored-By` / `Co-authored-by` and AI-attribution trailers, shared by the local husky
+  hook and CI.
+
+**Consequences**: merges into environment branches are blocked until all three checks pass and
+a review approves; AI-attribution trailers are rejected both locally and in CI (repo is source
+of truth); the admin backdoor is auditable. Requires CI-first rollout — land the `commitlint`
+job and config green on `develop` before flipping required checks (design Decision 3).
 
 ## Adding a new ADR
 
