@@ -1,0 +1,141 @@
+# Architecture Decision Records
+
+> Why: every app built from this template inherits these decisions. Each ADR records the
+> context, the decision, and the trade-offs so future teams extend them instead of
+> relitigating them. Source of truth: `openspec/changes/standard-frontend-template/design.md`.
+
+## Stack baseline
+
+The decisions below assume this stack, pinned in `package.json`, `.nvmrc`, and the tool
+configs at the repo root:
+
+| Layer | Choice |
+|-------|--------|
+| Runtime | Node `>=22`, pnpm `9.15.9` |
+| Bundler | Vite 6 |
+| UI | React 19 + TypeScript 5 (strict) |
+| Styling | Tailwind 3 + shadcn/ui (Radix UI + CVA + CSS variables) |
+| Server state | TanStack Query 5 |
+| Routing | React Router 7 (`createBrowserRouter`) |
+| Linting | Biome + ESLint (jsx-a11y strict) |
+| Testing | Vitest 3 + Testing Library + vitest-axe + Playwright |
+
+## ADR summary
+
+| ID | Decision |
+|----|----------|
+| ADR-1 | Feature-based (screaming) source layout |
+| ADR-2 | shadcn/ui + Tailwind + Radix for components |
+| ADR-3 | Local + server state; no global store |
+| ADR-4 | React Router data router + per-route code splitting |
+| ADR-5 | Typed error model + route error boundary |
+| ADR-6 | Accessibility-first app shell |
+| ADR-7 | Vitest + Testing Library + axe + Playwright testing stack |
+| ADR-8 | Tooling gate + single final PR delivery |
+
+## ADR-1: Feature-based (screaming) source layout
+
+**Context**: Future apps should be navigable by business capability, not by layer.
+
+**Decision**: `src/features/<feature>/` groups a capability's components, hooks, and domain
+logic (`api.ts`). Cross-cutting layers: `src/components/` (shared presentational),
+`src/components/ui/` (shadcn primitives), `src/hooks/`, `src/lib/` (utils, query client,
+errors), `src/routes/` (lazy route modules).
+
+**Consequences**: Fits the container/presentational pattern; avoids scattered files; a new
+capability means adding one folder. See [folder-structure.md](folder-structure.md) for the
+full tree.
+
+**Example**: the sample `home` feature at `src/features/home/` owns `home-page.tsx` (the
+container), `components/hero.tsx` and `components/feature-cards.tsx` (presentational),
+`hooks/use-greeting.ts`, and `api.ts`.
+
+## ADR-2: shadcn/ui + Tailwind + Radix for components
+
+**Context**: Need accessible, composable, themeable primitives without vendoring a heavy UI
+kit at runtime.
+
+**Decision**: Tailwind CSS base + shadcn/ui (Radix UI + CSS variables + CVA). Design tokens
+are CSS variables; `darkMode: class`. Primitive source lives in `src/components/ui/`.
+
+**Deviation note**: the countergank `react-frontend` skill's `css-responsive` rules are kept
+in intent (mobile-first, breakpoints, fluid type, touch targets) but implemented in the
+Tailwind medium rather than hand-written media queries.
+
+**Consequences**: primitives are owned and themeable via CSS variables
+(`src/styles/tokens.css`), and they inherit Radix's focus/keyboard/ARIA behavior for free.
+
+## ADR-3: Local + server state; no global store
+
+**Context**: SPAs have UI state and server data; an unneeded global store adds complexity.
+
+**Decision**: `useState`/`useReducer` + Context for local/UI state; TanStack Query for all
+server data (caching, invalidation, retries, error handling). **No global store by default.**
+
+**Consequences**: server state is cached and resilient; a new feature adds a typed query
+hook in `features/<feature>/api.ts` instead of wiring a store.
+
+## ADR-4: Routing & code splitting
+
+**Context**: SPAs grow beyond an initial bundle; shipping everything up front hurts first load.
+
+**Decision**: React Router `createBrowserRouter` data router with route-level `lazy` modules
+(dynamic import) and a Suspense boundary per route inside the shell.
+
+**Consequences**: `src/routes/*-route.tsx` modules load on demand; the shell wraps routed
+content in `<Suspense>` with an `aria-busy` fallback. See `src/routes/index.tsx` and
+`src/app-shell.tsx`.
+
+## ADR-5: Typed error model + route error boundary
+
+**Context**: Thrown raw strings (`throw "boom"`) and unchecked values crash `Error`-aware
+code paths; the app needs one consistent error story.
+
+**Decision**: Typed `Error` subclasses in `src/lib/errors.ts` (`AppError`, `DataFetchError`,
+`RouteError`) with optional `code`/`status`; a route-level `RouteErrorBoundary` wired to the
+router `errorElement`; TanStack Query error states render the accessible `ErrorView`.
+
+**Consequences**: every error is an `Error` instance, `instanceof` works, and UI surfaces a
+consistent title/message/retry. See [error-handling.md](error-handling.md).
+
+## ADR-6: Accessibility-first shell
+
+**Context**: Navigation and content changes must be perceivable and operable by keyboard and
+screen reader users (WCAG 2.2 AA baseline).
+
+**Decision**: Shell with `<header>`/`<nav>`/`<main>`/`<footer>` landmarks, a skip link as the
+first focusable element, a `RouteAnnouncer` live region, focus management on client-side
+navigation, `lang="en"` on `<html>`, and `prefers-reduced-motion` handling.
+
+**Consequences**: accessible by default; enforced in CI via ESLint a11y, `vitest-axe`, and
+Playwright keyboard/axe journeys. See [accessibility.md](accessibility.md).
+
+## ADR-7: Testing stack
+
+**Context**: Quality gates must run fast and stay meaningful; no manual QA ritual.
+
+**Decision**: Vitest (jsdom) for unit + component tests with Testing Library + `userEvent`,
+`vitest-axe` for a11y assertions, Playwright for critical e2e journeys. Coverage thresholds
+80/80/80/80 enforced by `vitest.config.ts`.
+
+**Consequences**: `pnpm test` + `pnpm test:e2e` are the CI quality gate; tests colocate with
+the code they verify. See [testing.md](testing.md).
+
+## ADR-8: Tooling gate + single final PR delivery
+
+**Context**: The template evolves in controlled increments; reviewers deserve small, coherent
+work units and future apps need one atomic "mold" to consume.
+
+**Decision**: Conventional Commits enforced by commitlint + husky (`.husky/commit-msg`). The
+Makefile mirrors pnpm scripts for backend-standard parity. Delivery is a single final PR
+(maintainer-approved `size:exception` on `chore/stack-setup`) accumulated phase by phase;
+no commits go to `develop`/`staging`/`main` directly.
+
+**Consequences**: every commit is a reviewable work unit; `make ci` gates the pipeline locally
+and the GitHub Actions workflow in `.github/workflows/ci.yml` enforces the same steps in CI;
+consumers get one coherent template snapshot.
+
+## Adding a new ADR
+
+Append a numbered ADR with the same **Context → Decision → Consequences** shape. Keep it
+short, reference real files, and pair it with a test where a decision is testable.

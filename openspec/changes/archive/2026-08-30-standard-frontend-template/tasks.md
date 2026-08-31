@@ -41,37 +41,37 @@ Chain strategy: single-pr
 - [x] 2.4 Document branch protection reflecting the verified real state: protection already configured on develop/staging/main (1 reviewer, dismiss stale reviews, last-push approval, force-push blocked, enforce admins, admin bypass user leandrojaviercepeda); pending item = associate the CI check with all three protections once `.github/workflows/ci.yml` lands in Phase 6 (required_status_checks currently empty because CI does not exist yet).
 
 ## Phase 3: Stack setup (ticket #3 — COU-122)
-- [ ] 3.1 Scaffold `src/` skeleton: package.json (pnpm), .nvmrc, .editorconfig, .vscode.
-- [ ] 3.2 Add `tsconfig.json` strict + `@/` alias; `vite.config.ts` with alias/env (`vite-001/002`).
-- [ ] 3.3 Set Tailwind + shadcn/ui (Radix, CSS vars, darkMode class); `src/components/ui/`.
-- [ ] 3.4 Add `biome.json` + ESLint a11y/recommended config (skill eslint asset).
+- [x] 3.1 Scaffold `src/` skeleton: package.json (pnpm), .nvmrc, .editorconfig, .vscode.
+- [x] 3.2 Add `tsconfig.json` strict + `@/` alias; `vite.config.ts` with alias/env (`vite-001/002`).
+- [x] 3.3 Set Tailwind + shadcn/ui (Radix, CSS vars, darkMode class); `src/components/ui/`.
+- [x] 3.4 Add `biome.json` + ESLint a11y/recommended config (skill eslint asset).
 
 ## Phase 4: Architecture (ticket #4)
-- [ ] 4.1 Create `src/features/<sample>` structure (components+hooks+api) demonstrating feature layout.
-- [ ] 4.2 Build app shell: landmarks, skip link, `RouteAnnouncer` (skill asset), focus mgmt.
-- [ ] 4.3 Add React Router lazy routes + Suspense; TanStack Query client + sample query.
-- [ ] 4.4 Add typed `Error` subclasses + route `ErrorBoundary` + error UI (`react-011`).
+- [x] 4.1 Create `src/features/<sample>` structure (components+hooks+api) demonstrating feature layout.
+- [x] 4.2 Build app shell: landmarks, skip link, `RouteAnnouncer` (skill asset), focus mgmt.
+- [x] 4.3 Add React Router lazy routes + Suspense; TanStack Query client + sample query.
+- [x] 4.4 Add typed `Error` subclasses + route `ErrorBoundary` + error UI (`react-011`).
 
 ## Phase 5: Testing (ticket #5)
-- [ ] 5.1 Configure Vitest (jsdom, coverage thresholds) `vitest.config.ts` (skill asset).
-- [ ] 5.2 RED: write failing unit/component tests per stack+architecture scenarios.
-- [ ] 5.3 Add Testing Library + `userEvent` component tests; axe a11y assertions.
-- [ ] 5.4 Add Playwright `e2e/` critical journeys (keyboard + reduced-motion).
-- [ ] 5.5 Enable strict TDD in `openspec/config.yaml` once runner confirmed.
+- [x] 5.1 Configure Vitest (jsdom, coverage thresholds) `vitest.config.ts` (skill asset).
+- [x] 5.2 RED: write failing unit/component tests per stack+architecture scenarios.
+- [x] 5.3 Add Testing Library + `userEvent` component tests; axe a11y assertions.
+- [x] 5.4 Add Playwright `e2e/` critical journeys (keyboard + reduced-motion).
+- [x] 5.5 Enable strict TDD in `openspec/config.yaml` once runner confirmed.
 
 ## Phase 6: CI/CD (ticket #6)
-- [ ] 6.1 Add `.github/workflows/ci.yml`: lint, typecheck, test+coverage, build, e2e.
-- [ ] 6.2 Add preview deploy step for PRs.
+- [x] 6.1 Add `.github/workflows/ci.yml`: lint, typecheck, test+coverage, build, e2e.
+- [x] 6.2 Add preview deploy step for PRs.
 
 ## Phase 7: Tooling & hygiene (ticket #7)
-- [ ] 7.1 Add `commitlint.config.ts` (conventional commits) + husky hooks.
-- [ ] 7.2 Add `Makefile` (dev/test/ci) + `Dockerfile` + `.env.example`/`.env.test`.
+- [x] 7.1 Add `commitlint.config.ts` (conventional commits) + husky hooks.
+- [x] 7.2 Add `Makefile` (dev/test/ci) + `Dockerfile` + `.env.example`/`.env.test`.
 
 ## Phase 8: Documentation (ticket #8)
-- [ ] 8.1 Add `docs/` (ADR, folder structure, component patterns, error handling, a11y policy, testing strategy).
-- [ ] 8.2 Add `AGENTS.md` pointing to countergank skills + repo standards.
-- [ ] 8.3 Write README (purpose, quickstart, consumption guide).
-- [ ] 8.4 Verify doc links and agent-readable standards resolve.
+- [x] 8.1 Add `docs/` (ADR, folder structure, component patterns, error handling, a11y policy, testing strategy).
+- [x] 8.2 Add `AGENTS.md` pointing to countergank skills + repo standards.
+- [x] 8.3 Write README (purpose, quickstart, consumption guide).
+- [x] 8.4 Verify doc links and agent-readable standards resolve.
 
 ## Implementation order
 Skills (1) → GitHub flow (2) → stack (3) → architecture (4) → testing (5) → CI/CD (6) → tooling (7) → docs (8),

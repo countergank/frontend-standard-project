@@ -48,17 +48,17 @@ rules:
   apply:
     guidelines:
       - Follow the countergank skills once integrated (react-frontend skill).
-    tdd: false
-    test_command: ""
+    tdd: true
+    test_command: "pnpm test"
   verify:
-    test_command: ""
-    build_command: ""
-    coverage_threshold: 0
+    test_command: "pnpm test"
+    build_command: "pnpm build"
+    coverage_threshold: 80
   archive:
     - Warn before merging destructive deltas.
 
 testing:
-  strict_tdd: false
+  strict_tdd: true
   detected: "2026-08-29"
-  runner: "none (not yet configured)"
-  note: "Repo has no source or test runner yet. Testing stack will be defined by the SDD plan and confirmed during setup."
+  runner: "vitest (jsdom, @testing-library/react, @testing-library/user-event, vitest-axe, axe-core)"
+  note: "Runner confirmed (COU-126). Unit + component + a11y tests run via pnpm test; e2e via pnpm test:e2e (Playwright). Coverage measured with @vitest/coverage-v8 at 80/80/80/80 thresholds; measured 98.68% stmts, 94.28% branch, 92.3% funcs, 98.68% lines."

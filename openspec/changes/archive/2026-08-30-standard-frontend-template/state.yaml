@@ -12,9 +12,9 @@ phases:
   spec: done
   design: done
   tasks: done
-  apply: pending
-  verify: pending
-  archive: pending
+  apply: done
+  verify: done
+  archive: done
 
 review_workload:
   estimated_changed_lines: "~3500-4500"
@@ -41,7 +41,7 @@ stack_decisions:
   commits: conventional-commits + commitlint + husky
 
 delivery:
-  strategy: ask-on-risk
+  strategy: ask-on-risk (resolved: single-pr with size:exception per user decision)
   review_budget_lines: 400
 
 execution_mode: interactive
