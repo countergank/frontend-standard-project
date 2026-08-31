@@ -52,6 +52,21 @@ docker run -p 8080:80 standard-frontend-template
 # → http://localhost:8080
 ```
 
+#### Docker Compose
+
+```bash
+make docker-up        # or: docker compose up --build -d
+# → http://localhost:8080
+
+make docker-down      # stop and remove
+make docker-logs      # tail logs
+make docker-status    # show container status
+```
+
+> **Note**: `VITE_*` environment variables are baked into the bundle at build time. Changing
+> them requires a rebuild — `make docker-up` (or `make docker-redeploy`) already includes
+> `--build`. A rebuild takes ~30 seconds on a warm cache.
+
 ## Environment variables
 
 Copy `.env.example` to `.env.local` and fill in real values. All Vite-exposed variables MUST
