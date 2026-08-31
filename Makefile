@@ -6,7 +6,9 @@
 # used in pnpm script names, because ':' is reserved Make syntax. Each target
 # invokes the canonical pnpm script it mirrors.
 
-.PHONY: help install dev build preview typecheck lint format test test-coverage test-e2e ci
+COMPOSE := docker compose
+
+.PHONY: help install dev build preview typecheck lint format test test-coverage test-e2e ci docker-build docker-up docker-down docker-logs docker-status docker-redeploy
 
 help: ## Show this help message
 	@echo "Usage: make [target]"
@@ -50,3 +52,21 @@ ci: ## CI gate: lint + typecheck + tests with coverage + build
 	pnpm typecheck
 	pnpm test:coverage
 	pnpm build
+
+docker-build: ## Build the Docker image
+	$(COMPOSE) build
+
+docker-up: ## Start the container (build + background)
+	$(COMPOSE) up --build -d
+
+docker-down: ## Stop and remove the container
+	$(COMPOSE) down
+
+docker-logs: ## Tail container logs
+	$(COMPOSE) logs -f
+
+docker-status: ## Show container status
+	$(COMPOSE) ps
+
+docker-redeploy: ## Rebuild and restart in one command
+	$(COMPOSE) up --build -d
