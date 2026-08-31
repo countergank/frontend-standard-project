@@ -136,3 +136,8 @@ dist
 .pnp.*
 # Local AI runtime state
 .atl/
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
