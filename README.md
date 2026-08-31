@@ -25,7 +25,7 @@ Prerequisites: **Node `>=22`** and **pnpm `9.15.9`** (enable with `corepack enab
 missing). The full command surface lives in `package.json` and `Makefile`.
 
 ```bash
-pnpm install          # install dependencies (or: make install)
+pnpm install          # install dependencies (or: make install / make setup)
 pnpm dev              # Vite dev server on http://localhost:3000 (or: make dev)
 pnpm test             # unit + component + a11y tests (or: make test)
 pnpm test:coverage    # with coverage report / 80% gate (or: make test-coverage)
