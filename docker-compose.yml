@@ -1,0 +1,11 @@
+services:
+  frontend-standard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: frontend-standard
+    ports:
+      - "8080:80"
+    environment:
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-}
+    restart: unless-stopped
