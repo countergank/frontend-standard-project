@@ -8,7 +8,7 @@
 
 COMPOSE := docker compose
 
-.PHONY: help install dev build preview typecheck lint format test test-coverage test-e2e ci docker-build docker-up docker-down docker-logs docker-status docker-redeploy
+.PHONY: help setup install dev build preview typecheck lint format test test-coverage test-e2e ci docker-build docker-up docker-down docker-logs docker-status docker-redeploy
 
 help: ## Show this help message
 	@echo "Usage: make [target]"
@@ -17,6 +17,9 @@ help: ## Show this help message
 	@grep -E '^[a-zA-Z][a-zA-Z0-9_.-]*:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 install: ## Install dependencies (pnpm install)
+	pnpm install
+
+setup: ## Install dependencies (alias for install)
 	pnpm install
 
 dev: ## Start the Vite development server
