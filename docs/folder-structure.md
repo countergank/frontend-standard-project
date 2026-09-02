@@ -66,7 +66,7 @@ frontend-standard-project/
 | `src/components/ui/` | shadcn/ui primitives, owned by this repo | `button.tsx` |
 | `src/features/<feature>/` | One folder per business capability | `src/features/home/home-page.tsx` |
 | `src/hooks/` | Shared, cross-feature hooks | `use-focus-management.ts` |
-| `src/lib/` | Infrastructure: errors, query client, utils | `errors.ts` |
+| `src/lib/` | Infrastructure: errors, query client, env, utils | `errors.ts` |
 | `src/routes/` | Router definition + lazy route modules | `home-route.tsx` |
 | `src/stores/` | Zustand client/UI state: vanilla `createStore` + `initialState` + selectors + bound hook | `use-ui-store.ts` |
 | `src/styles/` | Tailwind entry + design tokens (light/dark) | `tokens.css` |
@@ -78,7 +78,7 @@ frontend-standard-project/
 1. A business capability? Add `src/features/<feature>/` with `components/`, `hooks/`, and
    `api.ts` — see [component-patterns.md](component-patterns.md).
 2. Reusable presentation used by several features? Add it to `src/components/`.
-3. Infrastructure (errors, client, utils)? Add it to `src/lib/`.
+3. Infrastructure (errors, client, env, utils)? Add it to `src/lib/`.
 4. Cross-component client/UI state? Add a store to `src/stores/` (see
    [component-patterns.md](component-patterns.md) state policy).
 5. A route? Add `src/routes/<name>-route.tsx` as a lazy module and register it in
