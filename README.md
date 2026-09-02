@@ -69,10 +69,22 @@ make docker-status    # show container status
 
 ## Environment variables
 
-Copy `.env.example` to `.env.local` and fill in real values. All Vite-exposed variables MUST
-use the `VITE_` prefix to reach `import.meta.env.VITE_*`:
+Secrets are managed with **Doppler**. Run `make dev` / `make build` (or `doppler run -- pnpm dev`)
+to inject secrets from the active config. The project is linked to the `frontend-standard-project`
+Doppler project (configs: `dev`, `dev_personal`, `stg`, `prd`).
 
-- `VITE_API_BASE_URL` — base URL of the backend API the SPA talks to.
+Setup (once per machine):
+
+```bash
+doppler login
+make doppler-setup        # links project + config
+```
+
+If the Doppler CLI is not installed, `make dev` / `make build` fall back to reading
+`import.meta.env` from `.env.local`. All Vite-exposed variables MUST use the `VITE_` prefix to
+reach `import.meta.env.VITE_*`:
+
+- `VITE_API_BASE_URL` — base URL of the backend API the SPA talks to (set per config in Doppler).
 
 The template does not yet read env vars in `src/`; these are the documented convention for the
 API consumer layer future apps add. `.env.test` holds stable, non-environment-specific values
@@ -85,8 +97,8 @@ for Vitest.
 2. **Rename** — `package.json` `name`; the `<title>`/meta in `index.html`; the brand text and
    nav in `src/app-shell.tsx`.
 3. **Install** — `pnpm install`.
-4. **Configure env** — set `VITE_API_BASE_URL` in `.env.local` and read it from your API
-   client layer.
+4. **Configure env** — `doppler setup` in the new repo and set `VITE_API_BASE_URL` per config,
+   then read it from your API client layer.
 5. **Add a feature** — create `src/features/<feature>/` following
    `docs/component-patterns.md` (container + presentational + `api.ts`).
 6. **Keep the governance layer** — `AGENTS.md`, `docs/`, `skills-lock.json`,

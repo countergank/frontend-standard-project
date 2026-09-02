@@ -7,8 +7,9 @@
 # invokes the canonical pnpm script it mirrors.
 
 COMPOSE := docker compose
+DOPPLER := $(shell which doppler 2>/dev/null)
 
-.PHONY: help setup install dev build preview typecheck lint format test test-coverage test-e2e ci docker-build docker-up docker-down docker-logs docker-status docker-redeploy
+.PHONY: help setup install dev build preview typecheck lint format test test-coverage test-e2e ci docker-build docker-up docker-down docker-logs docker-status docker-redeploy doppler-setup doppler-secrets
 
 help: ## Show this help message
 	@echo "Usage: make [target]"
@@ -22,11 +23,21 @@ install: ## Install dependencies (pnpm install)
 setup: ## Install dependencies (alias for install)
 	pnpm install
 
-dev: ## Start the Vite development server
-	pnpm dev
+dev: ## Start the Vite development server (with Doppler if available)
+	@if [ -n "$(DOPPLER)" ]; then \
+		doppler run -- pnpm dev; \
+	else \
+		echo "Warning: doppler not found, falling back to pnpm dev"; \
+		pnpm dev; \
+	fi
 
-build: ## Type-check and bundle the app into dist/
-	pnpm build
+build: ## Type-check and bundle the app into dist/ (with Doppler if available)
+	@if [ -n "$(DOPPLER)" ]; then \
+		doppler run -- pnpm build; \
+	else \
+		echo "Warning: doppler not found, falling back to pnpm build"; \
+		pnpm build; \
+	fi
 
 preview: ## Serve the production build locally
 	pnpm preview
@@ -73,3 +84,9 @@ docker-status: ## Show container status
 
 docker-redeploy: ## Rebuild and restart in one command
 	$(COMPOSE) up --build -d
+
+doppler-setup: ## Link local project to Doppler (interactive)
+	doppler setup --project frontend-standard-project --no-interactive
+
+doppler-secrets: ## Show secrets for the current Doppler config
+	doppler secrets
