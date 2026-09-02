@@ -8,7 +8,7 @@ their starting point.
 ## What you get
 
 - **Stack** — Node `>=22` / pnpm `9.15.9` / Vite 6 / React 19 / TypeScript (strict) /
-  Tailwind + shadcn/ui / TanStack Query 5 / React Router 7 / Biome + ESLint.
+  Tailwind + shadcn/ui / TanStack Query 5 / Zustand 5 / React Router 7 / Biome + ESLint.
 - **Layout** — features-first `src/features/<feature>/` with container/presentational
   components.
 - **Accessible shell** — landmarks, skip link, route announcer, focus management
