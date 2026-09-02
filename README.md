@@ -86,9 +86,12 @@ reach `import.meta.env.VITE_*`:
 
 - `VITE_API_BASE_URL` — base URL of the backend API the SPA talks to (set per config in Doppler).
 
-The template does not yet read env vars in `src/`; these are the documented convention for the
-API consumer layer future apps add. `.env.test` holds stable, non-environment-specific values
-for Vitest.
+The template reads env vars through the typed gateway `src/lib/env.ts` (ADR-11): the home
+page renders a visible `AppEnvBadge` with the resolved `envMode`/`env.apiBaseUrl` as a working
+example of how apps built from this template should consume env. Build for staging with
+`make build-staging` (or `pnpm build:staging`), which uses the Doppler `stg` config and
+`vite build --mode staging`. `.env.test` holds stable, non-environment-specific values for
+Vitest.
 
 ## Consuming this template (bootstrap a new app)
 
@@ -97,8 +100,8 @@ for Vitest.
 2. **Rename** — `package.json` `name`; the `<title>`/meta in `index.html`; the brand text and
    nav in `src/app-shell.tsx`.
 3. **Install** — `pnpm install`.
-4. **Configure env** — `doppler setup` in the new repo and set `VITE_API_BASE_URL` per config,
-   then read it from your API client layer.
+4. **Configure env** — `doppler setup` in the new repo, set `VITE_API_BASE_URL` per config,
+   then read it through `src/lib/env.ts` from your API client layer.
 5. **Add a feature** — create `src/features/<feature>/` following
    `docs/component-patterns.md` (container + presentational + `api.ts`).
 6. **Keep the governance layer** — `AGENTS.md`, `docs/`, `skills-lock.json`,

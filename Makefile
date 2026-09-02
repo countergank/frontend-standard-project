@@ -9,7 +9,7 @@
 COMPOSE := docker compose
 DOPPLER := $(shell which doppler 2>/dev/null)
 
-.PHONY: help setup install dev build preview typecheck lint format test test-coverage test-e2e ci docker-build docker-up docker-down docker-logs docker-status docker-redeploy doppler-setup doppler-secrets
+.PHONY: help setup install dev build build-staging preview typecheck lint format test test-coverage test-e2e ci docker-build docker-up docker-down docker-logs docker-status docker-redeploy doppler-setup doppler-secrets
 
 help: ## Show this help message
 	@echo "Usage: make [target]"
@@ -37,6 +37,14 @@ build: ## Type-check and bundle the app into dist/ (with Doppler if available)
 	else \
 		echo "Warning: doppler not found, falling back to pnpm build"; \
 		pnpm build; \
+	fi
+
+build-staging: ## Build for staging (--mode staging + Doppler stg config)
+	@if [ -n "$(DOPPLER)" ]; then \
+		doppler run --config stg -- pnpm build:staging; \
+	else \
+		echo "Warning: doppler not found, using local env + --mode staging"; \
+		pnpm build:staging; \
 	fi
 
 preview: ## Serve the production build locally
@@ -70,8 +78,13 @@ ci: ## CI gate: lint + typecheck + tests with coverage + build
 docker-build: ## Build the Docker image
 	$(COMPOSE) build
 
-docker-up: ## Start the container (build + background)
-	$(COMPOSE) up --build -d
+docker-up: ## Start the container (build + background, with Doppler env if available)
+	@if [ -n "$(DOPPLER)" ]; then \
+		doppler run -- $(COMPOSE) up --build -d; \
+	else \
+		echo "Warning: doppler not found, using local VITE_API_BASE_URL"; \
+		$(COMPOSE) up --build -d; \
+	fi
 
 docker-down: ## Stop and remove the container
 	$(COMPOSE) down
