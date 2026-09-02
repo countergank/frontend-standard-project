@@ -100,6 +100,31 @@ expect(screen.getByRole("heading", { name: "Welcome" })).toBeInTheDocument();
 expect(screen.getByRole("link", { name: "Learn more" })).toHaveAttribute("href", "/about");
 ```
 
+## State management policy
+
+Three state layers, each with a designated owner. See ADR-10 (`docs/adr.md`).
+
+| State kind | Tool | Where it lives |
+|------------|------|----------------|
+| Cross-component UI state (sidebar, theme, dialogs) | **Zustand** | `src/stores/` (bound hooks + external selectors) |
+| Server data + cache | **TanStack Query** | `src/features/<feature>/api.ts` |
+| True component-local state | `useState` / `useReducer` | Inside the component |
+
+Zustand stores follow the v5 pattern in `src/stores/use-ui-store.ts`: a vanilla
+`createStore` + exported `initialState` + standalone external selectors + a bound
+`useUiStore` hook via `useStore(store, selector)`. Consumers subscribe to slices through
+selectors so they only re-render when their slice changes.
+
+```tsx
+const theme = useUiStore(selectTheme);
+const toggleTheme = useUiStore((s) => s.toggleTheme);
+```
+
+**No forced migration**: existing `useState`/`useReducer` local hooks remain valid and are
+not required to move to Zustand. Server state always stays on TanStack Query. Store resets
+between tests follow the convention in `src/test/setup.ts` (register each store's
+`initialState` reset there).
+
 ## Rule of thumb checklist
 
 - [ ] Container decides; presentational component renders props

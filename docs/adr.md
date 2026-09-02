@@ -16,6 +16,7 @@ configs at the repo root:
 | UI | React 19 + TypeScript 5 (strict) |
 | Styling | Tailwind 3 + shadcn/ui (Radix UI + CVA + CSS variables) |
 | Server state | TanStack Query 5 |
+| Client/UI state | Zustand 5 (`src/stores/`, see ADR-10) |
 | Routing | React Router 7 (`createBrowserRouter`) |
 | Linting | Biome + ESLint (jsx-a11y strict) |
 | Testing | Vitest 3 + Testing Library + vitest-axe + Playwright |
@@ -26,13 +27,14 @@ configs at the repo root:
 |----|----------|
 | ADR-1 | Feature-based (screaming) source layout |
 | ADR-2 | shadcn/ui + Tailwind + Radix for components |
-| ADR-3 | Local + server state; no global store |
+| ADR-3 | Local + server state; no global store — **evolved by ADR-10** |
 | ADR-4 | React Router data router + per-route code splitting |
 | ADR-5 | Typed error model + route error boundary |
 | ADR-6 | Accessibility-first app shell |
 | ADR-7 | Vitest + Testing Library + axe + Playwright testing stack |
 | ADR-8 | Tooling gate + single final PR delivery |
 | ADR-9 | CI-gated merge acceptance + branch protection |
+| ADR-10 | Zustand for client/UI state |
 
 ## ADR-1: Feature-based (screaming) source layout
 
@@ -68,13 +70,18 @@ Tailwind medium rather than hand-written media queries.
 
 ## ADR-3: Local + server state; no global store
 
+> **Status**: evolved by [ADR-10](#adr-10-zustand-for-clientui-state) — cross-component client/UI
+> state now uses Zustand. Server-state guidance below is unchanged.
+
 **Context**: SPAs have UI state and server data; an unneeded global store adds complexity.
 
 **Decision**: `useState`/`useReducer` + Context for local/UI state; TanStack Query for all
 server data (caching, invalidation, retries, error handling). **No global store by default.**
 
 **Consequences**: server state is cached and resilient; a new feature adds a typed query
-hook in `features/<feature>/api.ts` instead of wiring a store.
+hook in `features/<feature>/api.ts` instead of wiring a store. The "no global store" blanket
+applies to *unneeded* stores — when UI state genuinely spans components, prefer the Zustand
+pattern in ADR-10 over hand-rolled Context.
 
 ## ADR-4: Routing & code splitting
 
@@ -165,6 +172,31 @@ AI-attribution trailers were not rejected by commitlint's conventional config.
 a review approves; AI-attribution trailers are rejected both locally and in CI (repo is source
 of truth); the admin backdoor is auditable. Requires CI-first rollout — land the `commitlint`
 job and config green on `develop` before flipping required checks (design Decision 3).
+
+## ADR-10: Zustand for client/UI state
+
+**Context**: ADR-3's "no global store by default" covered the template's early needs, but
+cross-component UI state (theme, sidebar, dialogs) accumulated Context boilerplate and
+re-render management that a purpose-built client store solves more simply. State split into
+two established camps: server data on TanStack Query, UI state in local hooks — nothing clean
+for UI state shared across unrelated components.
+
+**Decision**: Zustand v5 is the canonical client/UI state store, registered under
+`dependencies`. Stores live in `src/stores/` following the v5 TypeScript pattern
+(`src/stores/use-ui-store.ts`): a vanilla `createStore` (testable outside React), exported
+`initialState`, standalone external selectors (`selectTheme`, `selectSidebarOpen`), and a
+bound hook (`useUiStore`) via `useStore(store, selector)`. Consumers subscribe through
+selectors so re-renders stay scoped to their slice. **This supersedes ADR-3's "no global
+store by default" line for cross-component UI state.** Server data remains exclusively on
+TanStack Query; component-local state stays on `useState`/`useReducer`. No Zustand
+middleware (persist, devtools, immer). Test isolation resets each store's `initialState` in
+`src/test/setup.ts`.
+
+**Consequences**: shared UI state has one typed, tested home with minimal re-renders; stores
+are unit-testable without React. Costs: a third state tool to learn (Query vs store vs local
+hook — the boundary is documented in [component-patterns.md](component-patterns.md)), and
+teams must resist dragging server cache into the store. Cherry-picking Zustand for
+`useState`-sized local state is actively discouraged (CSM-11).
 
 ## Adding a new ADR
 
