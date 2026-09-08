@@ -1,0 +1,64 @@
+# OpenSpec SDD config — frontend-standard-project
+schema: spec-driven
+
+context: |
+  Project: countergank/frontend-standard-project
+  Role: The countergank reference FRONTEND TEMPLATE (mold/base) that exposes the
+  standard technologies, tools, architecture, and conventions future countergank
+  frontend apps reuse as their starting point.
+  Current state: repo with countergank skills integrated (PR #1, commit dc0e409):
+  .agents/skills/ (react-frontend, github-conventions, git-environment-flow),
+  .claude/skills/ symlinks, skills-lock.json, openspec/ plan artifacts.
+  Stack: not yet decided (this SDD plan will define it).
+  Architecture: not yet decided (to be designed: folder structure, component patterns,
+  atomic design, container/presentational, error handling).
+  Testing: not yet configured (no test runner present; will be defined by the plan).
+  Conventions: conversation in Spanish; technical artifacts (specs, tasks, code, docs)
+  in English. Work planned via SDD, executed incrementally via Linear tickets
+  (project named exactly "frontend-standard-project", all tickets assigned to
+  Leandro Cepeda, one ticket per fundamental part).
+
+layout:
+  orchestrator: openspec/changes/{change-name}/state.yaml
+  init: openspec/config.yaml
+  explore: openspec/changes/{change-name}/exploration.md
+  propose: openspec/changes/{change-name}/proposal.md
+  spec: openspec/changes/{change-name}/specs/{domain}/spec.md
+  design: openspec/changes/{change-name}/design.md
+  tasks: openspec/changes/{change-name}/tasks.md
+  apply: openspec/changes/{change-name}/tasks.md
+  verify: openspec/changes/{change-name}/verify-report.md
+  archive: openspec/changes/archive/{date}-{change-name}/
+
+rules:
+  proposal:
+    - State intent, scope, non-goals, and the enabled/disabled skill integrations.
+    - Reference the countergank/skills repository and the react-frontend skill.
+  specs:
+    - Use Given/When/Then for scenarios.
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY).
+  design:
+    - Document architecture decisions with rationale (ADR style).
+    - Include folder structure, component patterns, atomic design, container/presentational.
+  tasks:
+    - Group by phase, use hierarchical numbering.
+    - Keep tasks completable in one Linear-ticket-sized increment.
+    - One task group per fundamental part (skills, stack setup, architecture, testing,
+      CI/CD, tooling, documentation).
+  apply:
+    guidelines:
+      - Follow the countergank skills once integrated (react-frontend skill).
+    tdd: true
+    test_command: "pnpm test"
+  verify:
+    test_command: "pnpm test"
+    build_command: "pnpm build"
+    coverage_threshold: 80
+  archive:
+    - Warn before merging destructive deltas.
+
+testing:
+  strict_tdd: true
+  detected: "2026-08-29"
+  runner: "vitest (jsdom, @testing-library/react, @testing-library/user-event, vitest-axe, axe-core)"
+  note: "Runner confirmed (COU-126). Unit + component + a11y tests run via pnpm test; e2e via pnpm test:e2e (Playwright). Coverage measured with @vitest/coverage-v8 at 80/80/80/80 thresholds; measured 98.68% stmts, 94.28% branch, 92.3% funcs, 98.68% lines."
