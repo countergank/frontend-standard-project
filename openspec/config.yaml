@@ -6,7 +6,9 @@ context: |
   Role: The countergank reference FRONTEND TEMPLATE (mold/base) that exposes the
   standard technologies, tools, architecture, and conventions future countergank
   frontend apps reuse as their starting point.
-  Current state: empty repo (README.md, .gitignore, LICENSE, .atl/skill-registry.md only).
+  Current state: repo with countergank skills integrated (PR #1, commit dc0e409):
+  .agents/skills/ (react-frontend, github-conventions, git-environment-flow),
+  .claude/skills/ symlinks, skills-lock.json, openspec/ plan artifacts.
   Stack: not yet decided (this SDD plan will define it).
   Architecture: not yet decided (to be designed: folder structure, component patterns,
   atomic design, container/presentational, error handling).
@@ -46,17 +48,17 @@ rules:
   apply:
     guidelines:
       - Follow the countergank skills once integrated (react-frontend skill).
-    tdd: false
-    test_command: ""
+    tdd: true
+    test_command: "pnpm test"
   verify:
-    test_command: ""
-    build_command: ""
-    coverage_threshold: 0
+    test_command: "pnpm test"
+    build_command: "pnpm build"
+    coverage_threshold: 80
   archive:
     - Warn before merging destructive deltas.
 
 testing:
-  strict_tdd: false
+  strict_tdd: true
   detected: "2026-08-29"
-  runner: "none (not yet configured)"
-  note: "Repo has no source or test runner yet. Testing stack will be defined by the SDD plan and confirmed during setup."
+  runner: "vitest (jsdom, @testing-library/react, @testing-library/user-event, vitest-axe, axe-core)"
+  note: "Runner confirmed (COU-126). Unit + component + a11y tests run via pnpm test; e2e via pnpm test:e2e (Playwright). Coverage measured with @vitest/coverage-v8 at 80/80/80/80 thresholds; measured 98.68% stmts, 94.28% branch, 92.3% funcs, 98.68% lines."
