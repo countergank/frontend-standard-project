@@ -7,14 +7,15 @@ Resumen del enfoque por defecto de Linear para tareas "planas": tickets pequeño
 - **Task plana** — un ticket describe un trabajo unitario, sin dependencias de DoR/ceremonia.
 - **Ejecutable async** — un compañero puede entregarlo sin hablar contigo.
 - **Criterios testeables** — lista de verificación (checklist) en lugar de Given/When/Then.
-- **Sin estimación/prioridad** — fuera del alcance de este skill (spec non-goal).
+- **Campos obligatorios** — proyecto, estimación y asignado se completan como campos del ticket: no son ceremonia, son los datos que el flujo necesita antes de implementar.
 
 ## En la práctica
 
-- Título scaneable `[Verbo] [Qué] [Contexto]` (ver `rules/title/p0-title-format.md`).
-- Descripción Contexto → Scope → Criterios (ver `rules/description/p0-description-structure.md`).
-- Plantillas por tipo en `assets/templates/` (ver `rules/templates/p1-per-type-templates.md`).
-- Contenido en español, tooling en inglés (ver `rules/language/p1-language-split.md`).
+- Título scaneable `[Verbo] [Qué] [Contexto]` (ver `rules/title.md`).
+- Descripción Contexto → Scope → Criterios (ver `rules/description.md`).
+- Plantillas por tipo en `assets/templates/`, elegidas en las puertas de decisión del `SKILL.md`.
+- La rama sale del campo `branchName`; `kickoff` la crea y mueve el ticket de estado (ver `rules/integration.md`).
+- Contenido en español, tooling en inglés (ver `rules/language.md`).
 
 ## Fuente
 
